@@ -34,8 +34,8 @@ async def control_device(command: DeviceCommand):
     if command.action not in ["on", "off"]:
         raise HTTPException(status_code=400, detail="Action must be 'on' or 'off'")
     
-    # Формируем запрос к Яндекс API
-    url = f"https://api.iot.yandex.net/v1.0/devices/{DEVICE_ID}/actions"
+    # Формируем запрос к Яндекс Smart Home API
+    url = f"https://api.yandex.net/smart-home/v1/devices/{DEVICE_ID}/control"
     
     headers = {
         "Authorization": f"OAuth {YANDEX_TOKEN}",
@@ -43,15 +43,7 @@ async def control_device(command: DeviceCommand):
     }
     
     payload = {
-        "actions": [
-            {
-                "type": "devices.capabilities.on_off",
-                "state": {
-                    "instance": "on",
-                    "value": True if command.action == "on" else False
-                }
-            }
-        ]
+        "command": "turn_on" if command.action == "on" else "turn_off"
     }
     
     try:
