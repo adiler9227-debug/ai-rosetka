@@ -42,22 +42,22 @@ async def control_device(command: DeviceCommand):
         "Content-Type": "application/json"
     }
     
-payload = {
-    "devices": [
-        {
-            "id": DEVICE_ID,
-            "actions": [
-                {
-                    "type": "devices.capabilities.on_off",
-                    "state": {
-                        "instance": "on",
-                        "value": True if command.action == "on" else False
+    payload = {
+        "devices": [
+            {
+                "id": DEVICE_ID,
+                "actions": [
+                    {
+                        "type": "devices.capabilities.on_off",
+                        "state": {
+                            "instance": "on",
+                            "value": True if command.action == "on" else False
+                        }
                     }
-                }
-            ]
-        }
-    ]
-}
+                ]
+            }
+        ]
+    }
     
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
